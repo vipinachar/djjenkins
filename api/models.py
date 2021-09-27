@@ -1,9 +1,8 @@
 from django.db import models
 
-
 class AppUser(models.Model):
     name = models.CharField(max_length=20)
-    email = models.EmailField()
+    email = models.CharField(max_length=20,unique=True)
     password = models.CharField(max_length=20)
 
     def __str__(self):
