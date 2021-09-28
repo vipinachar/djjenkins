@@ -24,23 +24,27 @@ class AppUserApi(APIView):
             email = request.data.get('email')
             user = AppUser.objects.get(email=email)
         except AppUser.DoesNotExist:
-            return Response("Email Address does not exist",status=status.HTTP_400_BAD_REQUEST)
+            return Response("Please enter a valid Email address.",status=status.HTTP_400_BAD_REQUEST)
         serializer = AppUserSerializer(user,data=request.data,partial=True)
         if serializer.is_valid():
             serializer.save()
-            return Response("Details has been updated successfully",status=status.HTTP_201_CREATED)
-        return Response("Sorry ! Failed to update data",status=status.HTTP_400_BAD_REQUEST)
+            return Response("User details have been updated successfully.",status=status.HTTP_201_CREATED)
+        return Response("Sorry ! Failed to update. Please check the entered data.",status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self,request):
         try:
             email = request.data.get('email')
             user= AppUser.objects.get(email=email)
         except AppUser.DoesNotExist:
-            return Response("Email Address does not exist",status=status.HTTP_400_BAD_REQUEST)
+            return Response("Please enter a valid Email address.",status=status.HTTP_400_BAD_REQUEST)
         
         user.delete()
-        return Response("User has been successfully deleted",status=status.HTTP_201_CREATED)
+        return Response("User Details have been successfully deleted.",status=status.HTTP_201_CREATED)
 
+    def get(self,request):
+        users = AppUser.objects.all()
+        serializer = AppUserSerializer(users, many=True)
+        return Response(serializer.data,status=status.HTTP_201_CREATED)
 
     
     
