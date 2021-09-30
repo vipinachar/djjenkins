@@ -41,10 +41,21 @@ class AppUserApi(APIView):
         user.delete()
         return Response("User Details have been successfully deleted.",status=status.HTTP_201_CREATED)
 
-    def get(self,request):
-        users = AppUser.objects.all()
-        serializer = AppUserSerializer(users, many=True)
-        return Response(serializer.data,status=status.HTTP_201_CREATED)
+    def get(self,request,email=None):
+        if email is not None:
+            try:
+                user = AppUser.objects.get(email=email)
+                serializer = AppUserSerializer(user)
+                return Response(serializer.data,status=status.HTTP_201_CREATED)
+            except:
+                return Response("Please enter a valid Email address",status=status.HTTP_400_BAD_REQUEST)
+        else:    
+            users = AppUser.objects.all()
+            serializer = AppUserSerializer(users, many=True)
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+
+
+
 
     
     
