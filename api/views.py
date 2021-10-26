@@ -7,8 +7,7 @@ from rest_framework import status
 from api.models import AppUser
 from api.serializers import AppUserSerializer
 
-
-class AppUserApi(APIView):
+cclass AppUserApi(APIView):
     def post(self,request):
         print(request.data)
         serializer = AppUserSerializer(data=request.data)
@@ -18,12 +17,17 @@ class AppUserApi(APIView):
             return Response("User has been created successfully",status=status.HTTP_201_CREATED)
         print(serializer.errors)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
-
+    
+    def get(self,request):
+        users = AppUser.objects.all()
+        serializer = AppUserSerializer(users, many=True)
+        return Response(serializer.data)
+class UpdateUserAPIView(APIView):
     def put(self,request):
         try:
             email = request.data.get('email')
-            user = AppUser.objects.get(email=email)
-        except AppUser.DoesNotExist:
+            user = RegisterUserAppuser.objects.get(email=email)
+        except RegisterUserAppuser.DoesNotExist:
             return Response("Please enter a valid Email address.",status=status.HTTP_400_BAD_REQUEST)
         serializer = AppUserSerializer(user,data=request.data,partial=True)
         if serializer.is_valid():
@@ -34,8 +38,8 @@ class AppUserApi(APIView):
     def delete(self,request):
         try:
             email = request.data.get('email')
-            user= AppUser.objects.get(email=email)
-        except AppUser.DoesNotExist:
+            user= RegisterUserAppuser.objects.get(email=email)
+        except RegisterUserAppuser.DoesNotExist:
             return Response("Please enter a valid Email address.",status=status.HTTP_400_BAD_REQUEST)
         
         user.delete()
@@ -44,22 +48,29 @@ class AppUserApi(APIView):
     def get(self,request,email=None):
         if email is not None:
             try:
-                user = AppUser.objects.get(email=email)
+                user = RegisterUserAppuser.objects.get(email=email)
                 serializer = AppUserSerializer(user)
                 return Response(serializer.data,status=status.HTTP_201_CREATED)
             except:
                 return Response("Please enter a valid Email address",status=status.HTTP_400_BAD_REQUEST)
         else:    
-            users = AppUser.objects.all()
+            users = RegisterUserAppuser.objects.all()
             serializer = AppUserSerializer(users, many=True)
             return Response(serializer.data,status=status.HTTP_201_CREATED)
 
-
-
-
-    
-    
-        
+class listAPIView(APIView):
+    def get(self,request,email=None):
+            if email is not None:
+                try:
+                    user = RegisterUserAppuser.objects.get(email=email)
+                    serializer = AppUserSerializer(user)
+                    return Response(serializer.data,status=status.HTTP_201_CREATED)
+                except:
+                    return Response("Please enter a valid Email address",status=status.HTTP_400_BAD_REQUEST)
+            else:    
+                users = RegisterUserAppuser.objects.all()
+                serializer = AppUserSerializer(users, many=True)
+                return Response(serializer.data,status=status.HTTP_201_CREATED)
 
 
 
