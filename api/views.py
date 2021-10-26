@@ -7,7 +7,7 @@ from rest_framework import status
 from api.models import AppUser
 from api.serializers import AppUserSerializer
 
-cclass AppUserApi(APIView):
+class AppUserApi(APIView):
     def post(self,request):
         print(request.data)
         serializer = AppUserSerializer(data=request.data)
