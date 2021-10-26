@@ -22,11 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/users/',AppUserApi.as_view()),
     path('api/v1/users/<str:email>/',AppUserApi.as_view()),
-    path('list/',listAPIView.as_view()),
-    path('register/',AppUserApi.as_view()),
-    path('update/',UpdateUserAPIView.as_view()),
-    path('update/<str:email>/',UpdateUserAPIView.as_view()),
-    
+ 
    
   
     
