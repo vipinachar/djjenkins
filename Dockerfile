@@ -1,5 +1,5 @@
 # pull the official base image
-FROM python:arm64v8
+FROM python:3.8.3-alpine
 
 # set work directory
 WORKDIR /usr/src/app
