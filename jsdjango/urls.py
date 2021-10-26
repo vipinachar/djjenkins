@@ -15,13 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from api.views import AppUserApi
+from api.views import AppUserApi,listAPIView,UpdateUserAPIView
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/users/',AppUserApi.as_view()),
     path('api/v1/users/<str:email>/',AppUserApi.as_view()),
+    path('list/',listAPIView.as_view()),
+    path('register/',AppUserApi.as_view()),
+    path('update/',UpdateUserAPIView.as_view()),
+    path('update/<str:email>/',UpdateUserAPIView.as_view()),
+    
    
   
     
